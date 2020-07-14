@@ -12,7 +12,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import StoreFilter from './StoreFilter';
 import StoreList from './StoreList';
 import StoreMap from './StoreMap';
-import useConvenienceStore from './api'
+import useConvenienceStore from './ConvenienceStore'
 
 
 const drawerWidth = 300;
@@ -96,30 +96,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard() {
+function Dashboard() {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
-  const convenienceStore = useConvenienceStore();
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
+  const [filter, geolocation, store, updateFilter] = useConvenienceStore();
+  //
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
         position="absolute"
-        className={clsx(classes.appBar, open && classes.appBarShift)}
+        className={clsx(classes.appBar, classes.appBarShift)}
       >
         <Toolbar className={classes.toolbar}>
           <IconButton
             edge="start"
             color="inherit"
             aria-label="open drawer"
-            onClick={handleDrawerOpen}
             className={clsx(
               classes.menuButton,
-              open && classes.menuButtonHidden,
+              classes.menuButtonHidden,
             )}
           >
             <MenuIcon />
@@ -137,21 +132,21 @@ export default function Dashboard() {
       </AppBar>
       <Drawer
         variant="permanent"
-        classes={{
-          paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
-        }}
-        open={open}
+        classes={{ paper: classes.drawerPaper }}
+        open={true}
       >
         <div className={classes.toolbarIcon} />
         <Divider />
-        <StoreFilter store={convenienceStore} />
+        <StoreFilter filter={filter} updateFilter={updateFilter} />
         <Divider />
-        <StoreList store={convenienceStore} />
+        <StoreList store={store} />
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
-        <StoreMap store={convenienceStore} />
+        <StoreMap geolocation={geolocation} store={store} />
       </main>
     </div>
   );
 }
+
+export default Dashboard;

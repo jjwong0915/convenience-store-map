@@ -1,12 +1,20 @@
 const koa = require('koa');
-const koaJson = require('koa-json');
-const sqlite3 = require('sqlite3').verbose();
+const json = require('koa-json');
+const logger = require('koa-logger')
+const path = require('path');
+const sqlite3 = require('sqlite3');
 //
-const db = new sqlite3.Database('./store.db');
+const db = new sqlite3.Database(path.join(__dirname, 'store.db'));
 //
 const app = new koa();
-app.use(koaJson());
+app.use(json());
+app.use(logger());
 app.use(async ctx => {
+  if (ctx.path != "/api") {
+    ctx.body = "Success!";
+    return;
+  }
+  //
   const toilet = ctx.query.toilet == '1';
   const atm = ctx.query.atm == '1';
   const wifi = ctx.query.wifi == '1';
@@ -48,7 +56,7 @@ app.use(async ctx => {
   command += " * ABS(LocationX - " + ctx.query.log + ")"
   command += " + ABS(LocationY - " + ctx.query.lat + ")";
   command += " * ABS(LocationY - " + ctx.query.lat + ")"
-  command += " LIMIT 5";
+  command += " LIMIT 8";
   //
   const result = await new Promise((resolve, reject) => {
     db.all(command, [], (err, rows) => {
@@ -62,4 +70,6 @@ app.use(async ctx => {
   ctx.body = result;
 });
 //
-app.listen(8000);
+app.listen(8000, () => {
+  console.log("Server is running at http://localhost:8000/");
+});

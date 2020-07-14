@@ -6,9 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import PlaceIcon from '@material-ui/icons/Place';
 
-export default function StoreList(props) {
-  const [state, setState] = props.store;
-
+function StoreList(props) {
   return (
     <List
       dense
@@ -18,12 +16,12 @@ export default function StoreList(props) {
       }
     >
       {
-        state.storeList.map((item) => {
+        props.store.map((item, idx) => {
           return (
             <ListItem button key={item.StoreType + item.StoreName}>
-              <ListItemIcon>
-                <PlaceIcon />
-              </ListItemIcon>
+              <ListItemText>
+                <b>{(idx + 1).toString()}</b>
+              </ListItemText>
               <ListItemText primary={item.StoreType + " " + item.StoreName} />
             </ListItem>
           );
@@ -32,3 +30,5 @@ export default function StoreList(props) {
     </List>
   );
 }
+
+export default StoreList;

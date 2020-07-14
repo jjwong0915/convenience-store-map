@@ -6,13 +6,11 @@ import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Checkbox from '@material-ui/core/Checkbox';
 
-export default function StoreFilter(props) {
-  const [state, setState] = props.store;
-  //
+function StoreFilter(props) {
   const handleChange = (event) => {
-    setState({ ...state, [event.target.name]: event.target.checked });
+    props.updateFilter(event.target.name, event.target.checked);
   };
-  const { toilet, atm, wifi, coffee, icecream } = state;
+  const { toilet, atm, wifi, coffee, icecream } = props.filter;
   //
   return (
     <List dense subheader={
@@ -51,3 +49,5 @@ export default function StoreFilter(props) {
     </List>
   );
 }
+
+export default StoreFilter;
