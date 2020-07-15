@@ -46,17 +46,6 @@ function useConvenienceStore() {
     filter.toilet, filter.atm, filter.wifi, filter.coffee, filter.icecream,
     geolocation.latitude, geolocation.longitude,
   ]);
-  //
-  // if (
-  //   state.toilet !== previousState?.toilet ||
-  //   state.atm !== previousState?.atm ||
-  //   state.wifi !== previousState?.wifi ||
-  //   state.coffee !== previousState?.coffee ||
-  //   state.icecream !== previousState?.icecream ||
-  //   state.lat !== previousState?.lat ||
-  //   state.log !== previousState?.log
-  // ) {
-  // }
   return [filter, geolocation, store, updateFilter];
 }
 
